@@ -3,14 +3,14 @@ from socket import AF_INET, socket, SOCK_STREAM
 from threading import Thread
 from tkinter import *
 
-flag = 0
-
 def connect():
     def on_closing(event=None):
         """This function is to be called when the window is closed."""
-        my_msg.set("{quit}")
+        my_msg.set("dsnfjnd")
         send()
         flag = 1
+        client_socket.close()
+        chatWindow.quit()
 
     def receive():
         """Handles receiving of messages."""
@@ -29,19 +29,17 @@ def connect():
         msg = my_msg.get()
         my_msg.set("")  # Clears input field.
         client_socket.send(bytes(msg, "utf8"))
-        if msg == "{quit}":
-            client_socket.close()
-            root.quit()
 
+
+    flag = 0
     chatWindow = Toplevel(root)
     chatWindow.title("Chat Away!")
     width = 500
     height = 400
-    root.minsize(width = width, height = height)
+    chatWindow.minsize(width = width, height = height)
 
     messages_frame = Frame(chatWindow)
     my_msg = StringVar()  # For the messages to be sent.
-    my_msg.set("Type your messages here.")
     scrollbar = Scrollbar(messages_frame)  # To navigate through past messages.
     # Following will contain the messages.
     msg_list = Listbox(messages_frame, height=15, width=50, yscrollcommand=scrollbar.set)
@@ -56,7 +54,7 @@ def connect():
     send_button = Button(chatWindow, text="Send", command=send)
     send_button.pack()
 
-    root.protocol("WM_DELETE_WINDOW", on_closing)
+    chatWindow.protocol("WM_DELETE_WINDOW", on_closing)
     ADDR = ("54.162.255.141", 3000)
 
     client_socket = socket(AF_INET, SOCK_STREAM)
