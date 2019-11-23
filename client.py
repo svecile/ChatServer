@@ -3,11 +3,15 @@ import select
 import sys 
 server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 #input server ip
-print("Enter server IP address: ")
-IP = str(input()) 
+#print("Enter server IP address: ")
+#IP = str(input()) 
+IP='127.0.0.1'
+
 #input port number for the server
-print("Enter server port number: ")
-port = int(input())
+#print("Enter server port number: ")
+#port = int(input())
+port=3000
+
 #connects to server using IP and Port
 server.connect((IP, port))
 
